@@ -1,5 +1,5 @@
 from app import db, Brocker
-import re, time
+import re
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
