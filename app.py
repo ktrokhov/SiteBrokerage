@@ -16,7 +16,7 @@ db = SQLAlchemy(app)
 
 # Migrate(app, db)
 
-
+# тест ит
 class Brocker(db.Model):
 
     __tablename__ = 'Broker'
