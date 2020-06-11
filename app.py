@@ -1,7 +1,7 @@
 import os
-from flask import Flask
+from flask import Flask, render_template, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
-
+from flask_migrate import Migrate
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__)
@@ -13,12 +13,10 @@ app.config['SECRET_KEY'] = 'mysecretkey'
 
 db = SQLAlchemy(app)
 
-
-# Migrate(app, db)
+Migrate(app, db)
 
 
 class Brocker(db.Model):
-
     __tablename__ = 'Broker'
     # делаем таблицу
     id = db.Column(db.Integer, primary_key=True)
@@ -26,7 +24,6 @@ class Brocker(db.Model):
     SiteBankiRU = db.Column(db.REAL)
     SiteSmartLabRU = db.Column(db.REAL)
     SiteOtzovikRU = db.Column(db.REAL)
-
 
     def __init__(self, name, SiteBankiRU, SiteSmartLabRU, SiteOtzovikRU):
         self.name = name
@@ -38,9 +35,15 @@ class Brocker(db.Model):
         return f"Test {self.name} "
 
 
-@app.route('/home', methods=['GET'])
-def hello_world():
-    return 'Hello World!'
+@app.route('/')
+def index():
+    return render_template('home.html')
+
+
+@app.route('/list')
+def listBr():
+    brAll = Brocker.query.all()
+    return render_template('list.html', brAll=brAll)
 
 
 if __name__ == '__main__':
