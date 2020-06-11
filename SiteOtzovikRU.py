@@ -3,6 +3,7 @@ import re
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
+from decimal import Decimal
 
 
 Tinkoff = "https://otzovik.com/reviews/brokerskiy_schet_v_ao_tinkoff_bank/"
@@ -12,7 +13,12 @@ FINAM = "https://otzovik.com/reviews/broker_finam/"
 Otkritie = "https://otzovik.com/reviews/brokerskiy_dom_otkritie_russia_moscow/"
 Alfa = "https://otzovik.com/reviews/brokerskoe_obsluzhivanie_alfa-direkt/"
 Zerich = "https://otzovik.com/reviews/brokerskaya_kompaniya_cerih_kepital_menedzhment_russia_moscow/"
-Sber ="https://otzovik.com/reviews/servis_sberbank_broker/"
+Sber = "https://otzovik.com/reviews/servis_sberbank_broker/"
+
+allNames = ['Тинькофф Банк', 'ВТБ Капитал Брокер', 'Компания "Брокеркредитсервис"',
+            'Инвестиционный Банк "ФИНАМ"', 'Банк "Финансовая Корпорация Открытие"',
+            'АО "АЛЬФА-БАНК"', 'АО Инвестиционная Компания "ЦЕРИХ Кэпитал Менеджмент"', 'ПАО Сбербанк']
+allMarks = []
 
 allLinks = [Tinkoff, VTB, BKS, FINAM, Otkritie, Alfa, Zerich, Sber]
 for i in allLinks:
@@ -71,5 +77,14 @@ for i in allLinks:
     print(AllCount)
 
     print(SumAll/AllCount)
+    tmp = SumAll/AllCount
+    allMarks.append(tmp)
     browser.close()
 
+
+print(allNames)
+print(allMarks)
+
+for i in 8:
+    puppyFr = Brocker.query.filter_by(name=allNames[i]).update({'SiteOtzovikRU': allMarks[i]})
+    db.session.commit()

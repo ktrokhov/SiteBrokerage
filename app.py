@@ -16,22 +16,29 @@ db = SQLAlchemy(app)
 
 # Migrate(app, db)
 
-# db
+
 class Brocker(db.Model):
 
     __tablename__ = 'Broker'
     # делаем таблицу
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Text)
+    SiteBankiRU = db.Column(db.REAL)
+    SiteSmartLabRU = db.Column(db.REAL)
+    SiteOtzovikRU = db.Column(db.REAL)
 
-    def __init__(self, name):
+
+    def __init__(self, name, SiteBankiRU, SiteSmartLabRU, SiteOtzovikRU):
         self.name = name
+        self.SiteBankiRU = SiteBankiRU
+        self.SiteSmartLabRU = SiteSmartLabRU
+        self.SiteOtzovikRU = SiteOtzovikRU
 
     def __repr__(self):
         return f"Test {self.name} "
 
 
-@app.route('/')
+@app.route('/home', methods=['GET'])
 def hello_world():
     return 'Hello World!'
 
