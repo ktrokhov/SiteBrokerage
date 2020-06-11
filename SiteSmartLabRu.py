@@ -42,9 +42,12 @@ for links in AllLinks:
     browser.get(links)
     browser.maximize_window()
     soup0 = BeautifulSoup(browser.page_source)
+    # Название Брокера
     name = soup0.find('h2')
     print(name.text)
     parseIt = soup0.findAll("div", {"class": "broker-info"})
+    Rating = 0.0
+    ActiveClient = 0
     flagForRate = 0
     flagForClient = 0
     for i in parseIt:
@@ -60,6 +63,7 @@ for links in AllLinks:
             if flagForRate == 2:
                 flagForRate = -1
                 print(j.text)
+                Rating = j.text
 
             if j.text == 'Клиентов на смартлабе':
                 flagForClient = 1
