@@ -7,6 +7,7 @@ import time
 link = "https://www.banki.ru/services/responses/championship/?date=2020&product=investments"
 browser = webdriver.Chrome(ChromeDriverManager().install())
 browser.get(link)
+#
 browser.maximize_window()
 soup0 = BeautifulSoup(browser.page_source)
 TmpParse = soup0.findAll("div", {"class": "hor-not-fit-element__content"})
