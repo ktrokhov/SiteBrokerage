@@ -1,5 +1,5 @@
 from app import db, Brocker
-import re
+import time
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
@@ -16,17 +16,17 @@ FFin = "https://smart-lab.ru/brokers-rating/freedom-finance"
 GazProm = "https://smart-lab.ru/brokers-rating/gazprombank"
 Alor = "https://smart-lab.ru/brokers-rating/alor-broker"
 Region = "https://smart-lab.ru/brokers-rating/region-broker"
-Raiff = "https://smart-lab.ru/brokers-rating/raiffeisen-broker"
+# Raiff = "https://smart-lab.ru/brokers-rating/raiffeisen-broker"
 PSB = "https://smart-lab.ru/brokers-rating/promsvyzbank-broker"
 KitFin = "https://smart-lab.ru/brokers-rating/kit-finans"
 InvestPal = "https://smart-lab.ru/brokers-rating/%D0%98%D0%BD%D0%B2%D0%B5%D1%81%D1%82%D0%B8%D1%86%D0%B8%D0%BE%D0%BD%D0%BD%D0%B0%D1%8F%20%D0%BF%D0%B0%D0%BB%D0%B0%D1%82%D0%B0"
 Zerich = "https://smart-lab.ru/brokers-rating/zerich"
-RSHB = "https://smart-lab.ru/brokers-rating/rsgb-broker"
+# RSHB = "https://smart-lab.ru/brokers-rating/rsgb-broker"
 UralSib = "https://smart-lab.ru/brokers-rating/uralsib-capital"
 Septem = "https://smart-lab.ru/brokers-rating/septem-capital"
 Solid = "https://smart-lab.ru/brokers-rating/ifk-solid"
-AKBars = "https://smart-lab.ru/brokers-rating/AK-BARS-broker"
-Rikom = "https://smart-lab.ru/brokers-rating/AK-BARS-broker"
+# AKBars = "https://smart-lab.ru/brokers-rating/AK-BARS-broker"
+Rikom = "https://smart-lab.ru/brokers-rating/rikom-trust"
 QBF = "https://smart-lab.ru/brokers-rating/QBF"
 Veles = "https://smart-lab.ru/brokers-rating/%D0%92%D0%B5%D0%BB%D0%B5%D1%81%20%D0%9A%D0%B0%D0%BF%D0%B8%D1%82%D0%B0%D0%BB"
 Univer = "https://smart-lab.ru/brokers-rating/univer-capital"
@@ -34,19 +34,19 @@ Reness = "https://smart-lab.ru/brokers-rating/%D0%A0%D0%B5%D0%BD%D0%B5%D1%81%D1%
 ItCap = "https://smart-lab.ru/brokers-rating/ITI-Capital"
 
 AllLinks = [VTB, Tinkoff, Sber, Finam, Aton, BCS, Otrkitie,
-            Alfa, FFin, GazProm, Alor, Region, Raiff, PSB, KitFin,
-            InvestPal, Zerich, RSHB, UralSib, Septem, Solid,
-            AKBars, Rikom, QBF, Veles, Univer, Reness, ItCap]
+            Alfa, FFin, GazProm, Alor, Region, PSB, KitFin,
+            InvestPal, Zerich, UralSib, Septem, Solid,
+            Rikom, QBF, Veles, Univer, Reness, ItCap]
 allBrkNames = ['ВТБ Капитал Брокер', 'Тинькофф Банк', 'ПАО Сбербанк', 'Инвестиционный Банк "ФИНАМ"',
                'ООО "АТОН"', 'Компания "Брокеркредитсервис"', 'Банк "Финансовая Корпорация Открытие"',
                'АО "АЛЬФА-БАНК"',
                'ООО Инвестиционная компания "Фридом Финанс"', 'АО "Газпромбанк"', 'ООО "АЛОР +"',
-               'ООО "Брокерская компания "РЕГИОН"', 'АО "Райффайзенбанк"', 'ПАО "Промсвязьбанк"', 'АО "КИТ Финанс"',
+               'ООО "Брокерская компания "РЕГИОН"', 'ПАО "Промсвязьбанк"', 'АО "КИТ Финанс"',
                'ООО "Инвестиционная палата"',
-               'АО Инвестиционная Компания "ЦЕРИХ Кэпитал Менеджмент"', 'АО "Российский Сельскохозяйственный банк"',
+               'АО Инвестиционная Компания "ЦЕРИХ Кэпитал Менеджмент"',
                'ООО "УРАЛСИБ Брокер"',
                'ООО Инвестиционная компания "Септем Капитал"' 'АО Инвестиционно - финансовая компания "Солид"',
-               'ПАО Акционерный коммерческий банк "АК БАРС"', 'АО Инвестиционная компания "РИКОМ-ТРАСТ"',
+               'АО Инвестиционная компания "РИКОМ-ТРАСТ"',
                'ООО Инвестиционная Компания «КьюБиЭф»',
                'ООО "ИК ВЕЛЕС Капитал"', 'ООО "УНИВЕР Капитал"', 'ООО "Ренессанс Брокер"', 'ООО "УНИВЕР Капитал"']
 
@@ -61,24 +61,32 @@ for links in AllLinks:
     name = soup0.find('h2')
     print(name.text)
     parseIt = soup0.findAll("div", {"class": "broker-info"})
-    Rating = 0.0
-    ActiveClient = 0
+    Rate = ''
+    CountCilent = ''
     flagForRate = 0
     flagForClient = 0
     for i in parseIt:
-        print("here")
         tmpForTd = i.findAll("td")
         for j in tmpForTd:
 
             if flagForClient == 1:
                 flagForClient = -1
-                print(j.text)
+                for tmp in j.text:
+                    if tmp != ' ':
+                        CountCilent += tmp
+                    else:
+                        break
+                print(int(CountCilent))
                 break
 
             if flagForRate == 2:
                 flagForRate = -1
-                print(j.text)
-                Rating = j.text
+                for tmp in j.text:
+                    if tmp != ' ':
+                        Rate += tmp
+                    else:
+                        break
+                print(Rate)
 
             if j.text == 'Клиентов на смартлабе':
                 flagForClient = 1
@@ -86,7 +94,36 @@ for links in AllLinks:
             if j.text == 'Смартлаб рейтинг (?)':
                 flagForRate = 2
 
+    # Формула
+    intCountClient = int(CountCilent)
+    intNewRate = 0
+    flag = 0
+    if Rate[0] == '+':
+        flag = 1
+        newRate = Rate.replace("+", "")
+    else:
+        flag = -1
+        newRate = Rate.replace("-", "")
+
+    intNewRate = int(newRate)
+
+    if flag == 1:
+        badRate = (intCountClient - intNewRate) / 2
+        goodRate = badRate + intNewRate
+    else:
+        goodRate = (intCountClient - intNewRate) / 2
+        badRate = goodRate + intNewRate
+
+    ans = (goodRate * 5 + badRate) / intCountClient
+    tmpDecimal = float('{:.2f}'.format(ans))
+    print(tmpDecimal)
+    allRateBroker.append(tmpDecimal)
+    # time.sleep(15)
     browser.close()
+
+for i, j in zip(allBrkNames, allRateBroker):
+    UpdTable = Brocker.query.filter_by(name=i).update({'SiteSmartLabRU': j})
+    db.session.commit()
 # page1 = "https://smart-lab.ru/brokers-rating/russia/page1/"
 # page2 = "https://smart-lab.ru/brokers-rating/russia/page2/"
 # page3 = "https://smart-lab.ru/brokers-rating/russia/page3/"
