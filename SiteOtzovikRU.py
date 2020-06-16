@@ -1,5 +1,6 @@
 from app import db, Brocker
 import re
+import time
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
@@ -26,7 +27,7 @@ for i in allLinks:
     browser.get(i)
     browser.maximize_window()
     soup0 = BeautifulSoup(browser.page_source)
-
+    time.sleep(5)
     NameBroker = soup0.find("h1", {"class": "product-name"})
     print(NameBroker.text)
     Marks = soup0.findAll("div", {"class": "legend-item"})
@@ -79,7 +80,8 @@ for i in allLinks:
     print(SumAll/AllCount)
     tmp = SumAll/AllCount
     allMarks.append(tmp)
-    browser.close()
+    time.sleep(40)
+    # browser.close()
 
 
 print(allNames)
