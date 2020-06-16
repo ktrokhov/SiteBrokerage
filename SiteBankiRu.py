@@ -7,7 +7,6 @@ import time
 link = "https://www.banki.ru/services/responses/championship/?date=2020&product=investments"
 browser = webdriver.Chrome(ChromeDriverManager().install())
 browser.get(link)
-#
 browser.maximize_window()
 soup0 = BeautifulSoup(browser.page_source)
 TmpParse = soup0.findAll("div", {"class": "hor-not-fit-element__content"})
@@ -19,7 +18,7 @@ for i in test3:
     Name = i.find("a", {"class": "ng-binding"})
     print(Name.text)
     Rate = i.find("td", {"ng-bind": "item.middleGrade|number:2"})
-    print(Rate.text)
+    # print(Rate.text)
     converToDecimal = Decimal(Rate.text.replace(',', '.'))
     print(converToDecimal)
     print("---------------------------------------")
