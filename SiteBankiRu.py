@@ -1,4 +1,5 @@
 from app import db, Brocker
+import re
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
@@ -27,16 +28,28 @@ test2 = soup0.findAll("tbody", {"class": "first-half banks-list"})
 test3 = soup0.findAll("tr", {"class": "item ng-scope"})
 # print(test3)
 for i in test3:
+    StrName = ''
     Name = i.find("a", {"class": "ng-binding"})
     print(Name.text)
+    StrName = Name.text
     Rate = i.find("td", {"ng-bind": "item.middleGrade|number:2"})
     # print(Rate.text)
     converToDecimal = Decimal(Rate.text.replace(',', '.'))
     print(converToDecimal)
+    if re.search(r'\bБанк\b', StrName):
+        StrName = re.sub('\Банк', '', StrName)
+        print(StrName)
+    for j in allBrokerNames:
+        tmp = j.find(StrName)
+        if tmp != -1:
+            UpdTable = Brocker.query.filter_by(name=j).update({'SiteBankiRU': converToDecimal})
+            db.session.commit()
+            # print("Есть в списке")
+            # print(StrName)
+            break
+
     print("---------------------------------------")
-    # InsertInDB = Brocker(Name.text, converToDecimal)
-    # db.session.add(InsertInDB)
-    # db.session.commit()
+
 
 browser.close()
 #
