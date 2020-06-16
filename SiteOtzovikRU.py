@@ -79,14 +79,15 @@ for i in allLinks:
 
     print(SumAll/AllCount)
     tmp = SumAll/AllCount
-    allMarks.append(tmp)
+    tmpDecimal = float('{:.2f}'.format(tmp))
+    allMarks.append(tmpDecimal)
     time.sleep(40)
-    # browser.close()
+    browser.close()
 
 
 print(allNames)
 print(allMarks)
 
-for i in 8:
-    puppyFr = Brocker.query.filter_by(name=allNames[i]).update({'SiteOtzovikRU': allMarks[i]})
+for i, j in zip(allNames, allMarks):
+    puppyFr = Brocker.query.filter_by(name=i).update({'SiteOtzovikRU': j})
     db.session.commit()
