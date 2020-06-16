@@ -1,12 +1,32 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="jumbotron">
-  <h1>Here is a list of all Brockers.</h1>
-  <ul>
-    {% for i in brAll  %}
-    <li>{{i.name, i.SiteBankiRU, i.SiteSmartLabRU, i.SiteOtzovikRU }}</li>
-    {% endfor %}
-  </ul>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Название Брокера</th>
+                <th scope="col">Сайт Банки Ру</th>
+                <th scope="col">Сайт Смартлаб</th>
+                <th scope="col">Сайт Отзовик</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in brAll  %}
+            <tr>
+                 <td>{{i.name}}</td>
+                 <td>{{i.SiteBankiRU}}</td>
+                 <td>{{i.SiteSmartLabRU}}</td>
+                 <td>{{i.SiteOtzovikRU}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{#  <h1>Here is a list of all Brockers.</h1>#}
+{#  <ul>#}
+{#    {% for i in brAll  %}#}
+{#    <li>{{i.name, i.SiteBankiRU, i.SiteSmartLabRU, i.SiteOtzovikRU }}</li>#}
+{#    {% endfor %}#}
+{#  </ul>#}
 
 </div>
 {% endblock %}
