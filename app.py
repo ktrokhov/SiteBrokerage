@@ -1,7 +1,10 @@
 import os
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from secure_check import authenticate, identity
+from flask_jwt import JWT, jwt_required
+from flask_restful import Api, Resource
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__)
@@ -12,8 +15,10 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'mysecretkey'
 
 db = SQLAlchemy(app)
-
 Migrate(app, db)
+
+api = Api(app)
+jwt = JWT(app, authenticate, identity)
 
 
 class Brocker(db.Model):
@@ -31,8 +36,22 @@ class Brocker(db.Model):
         self.SiteSmartLabRU = SiteSmartLabRU
         self.SiteOtzovikRU = SiteOtzovikRU
 
+    def json(self):
+        return {'name': self.name, 'SiteBankiRU': self.SiteBankiRU, 'SiteSmartLabRU': self.SiteSmartLabRU,
+                'SiteOtzovikRU': self.SiteOtzovikRU}
+
     def __repr__(self):
         return f"Test {self.name} "
+
+
+class AllData(Resource):
+
+    def get(self):
+        allBrockers = Brocker.query.all()
+        return [pup.json() for pup in allBrockers]
+
+
+api.add_resource(AllData, '/brk')
 
 
 @app.route('/')
