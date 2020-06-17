@@ -3,7 +3,7 @@ from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from secure_check import authenticate, identity
-from flask_jwt import JWT, jwt_required
+from flask_jwt import JWT
 from flask_restful import Api, Resource
 
 basedir = os.path.abspath(os.path.dirname(__file__))
