@@ -38,4 +38,4 @@ bs4~=0.0.1
 beautifulsoup4~=4.9.1
 flask-jwt==0.3.2
 flask-RESTful == 0.3.8
-flask-Cors=
+flask-Cors == 3.0.8
