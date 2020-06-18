@@ -5,6 +5,7 @@ from flask_migrate import Migrate
 from secure_check import authenticate, identity
 from flask_jwt import JWT
 from flask_restful import Api, Resource
+from flask_cors import CORS
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__)
@@ -16,6 +17,7 @@ app.config['SECRET_KEY'] = 'mysecretkey'
 
 db = SQLAlchemy(app)
 Migrate(app, db)
+CORS(app)
 
 api = Api(app)
 jwt = JWT(app, authenticate, identity)
