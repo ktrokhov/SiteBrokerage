@@ -42,7 +42,7 @@ class Brocker(db.Model):
 
     def json(self):
         return {'name': self.name, 'SiteBankiRU': self.SiteBankiRU, 'SiteSmartLabRU': self.SiteSmartLabRU,
-                'SiteOtzovikRU': self.SiteOtzovikRU}
+                'SiteOtzovikRU': self.SiteOtzovikRU, 'Average': self.Average}
 
     def __repr__(self):
         return f" {self.name, self.SiteBankiRU, self.SiteSmartLabRU, self.SiteOtzovikRU} "
