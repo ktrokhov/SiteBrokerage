@@ -31,19 +31,21 @@ class Brocker(db.Model):
     SiteBankiRU = db.Column(db.REAL)
     SiteSmartLabRU = db.Column(db.REAL)
     SiteOtzovikRU = db.Column(db.REAL)
+    Average = db.Column(db.REAL)
 
-    def __init__(self, name, SiteBankiRU, SiteSmartLabRU, SiteOtzovikRU):
+    def __init__(self, name, SiteBankiRU, SiteSmartLabRU, SiteOtzovikRU, Average):
         self.name = name
         self.SiteBankiRU = SiteBankiRU
         self.SiteSmartLabRU = SiteSmartLabRU
         self.SiteOtzovikRU = SiteOtzovikRU
+        self.Average = Average
 
     def json(self):
         return {'name': self.name, 'SiteBankiRU': self.SiteBankiRU, 'SiteSmartLabRU': self.SiteSmartLabRU,
                 'SiteOtzovikRU': self.SiteOtzovikRU}
 
     def __repr__(self):
-        return f"Test {self.name} "
+        return f" {self.name, self.SiteBankiRU, self.SiteSmartLabRU, self.SiteOtzovikRU} "
 
 
 class AllData(Resource):

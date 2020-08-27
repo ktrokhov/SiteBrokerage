@@ -1,27 +1,61 @@
-# from app import db, Brocker
-#
-# db.create_all()
-# # firstTest = Brocker("lolwtf", 12.12)
-# # db.session.add(firstTest)
-# # db.session.commit()
-# #
-# # delit = Brocker.query.get(2)
-# # db.session.delete(delit)
-# # db.session.commit()
-# #
-# # print("lol")
-#
-# allBrokerNames = ['Тинькофф Банк', 'ПАО Сбербанк', 'ВТБ Капитал Брокер', 'Компания "Брокеркредитсервис"',
-#              'Инвестиционный Банк "ФИНАМ"', 'Банк "Финансовая Корпорация Открытие"', 'АО "АЛЬФА-БАНК"', 'ООО "АТОН"',
-#              'ООО Инвестиционная компания "Фридом Финанс"', 'АО "Газпромбанк"', 'УК Альфа-Капитал', 'ООО "АЛОР +"',
-#              'ООО "Брокерская компания "РЕГИОН"', 'ПАО "Промсвязьбанк"', 'АО Инвестиционная компания "АЙ ТИ ИНВЕСТ"', 'АО "КИТ Финанс"',
-#              'ООО Инвестиционная компания "Септем Капитал"', 'ООО "Инвестиционная палата"',
-#              'АО Инвестиционная Компания "ЦЕРИХ Кэпитал Менеджмент"', 'АО "Российский Сельскохозяйственный банк"', 'АО "Сургутнефтегазбанк"',
-#              'ООО "УРАЛСИБ Брокер"', 'АО "Райффайзенбанк"', 'АО Инвестиционно - финансовая компания "Солид"', 'АО коммерческий банк "Ситибанк"',
-#              'ПАО Акционерный коммерческий банк "АК БАРС"', 'ООО Инвестиционная Компания «КьюБиЭф»', 'АО Инвестиционная компания "РИКОМ-ТРАСТ"',
-#              'ООО "ИК ВЕЛЕС Капитал"', 'ООО "Ренессанс Брокер"', 'ООО "УНИВЕР Капитал"', 'ПАО "Совкомбанк"', 'ПАО "Росбанк"']
-#
-# for i in allBrokerNames:
-#     Upd = Brocker(i, 0.0)
-#     db.session.add(Upd)
-#     db.session.commit()
+import sqlite3
+from app import db, Brocker
+
+db1 = sqlite3.connect('data.sqlite')
+sql = "SELECT * from Broker;"
+cur = db1.cursor()
+cur.execute(sql)
+while True:
+    record = cur.fetchall()
+    if record is None:
+        break
+    for i in record:
+        if i[2] != 0.0 and i[3] != 0.0 and i[4] != 0.0:
+            avg = (i[2] + i[3] + i[4]) / 3
+            ans = int(avg * 100)/100
+            puppyFr = Brocker.query.filter_by(name=i[1]).update({'Average': ans})
+            db.session.commit()
+        if i[2] == 0.0 and i[3] != 0.0 and i[4] != 0.0:
+            avg = (i[3] + i[4]) / 2
+            ans = int(avg * 100) / 100
+            float("{0:.1f}".format(avg))
+            puppyFr = Brocker.query.filter_by(name=i[1]).update({'Average': ans})
+            db.session.commit()
+
+        if i[2] != 0.0 and i[3] == 0.0 and i[4] != 0.0:
+            avg = (i[2] + i[4]) / 2
+            ans = int(avg * 100) / 100
+            float("{0:.1f}".format(avg))
+            puppyFr = Brocker.query.filter_by(name=i[1]).update({'Average': ans})
+            db.commit()
+        if i[2] != 0.0 and i[3] != 0.0 and i[4] == 0.0:
+            avg = (i[2] + i[3]) / 2
+            ans = int(avg * 100) / 100
+            float("{0:.1f}".format(avg))
+            puppyFr = Brocker.query.filter_by(name=i[1]).update({'Average': ans})
+            db.session.commit()
+
+        if i[2] == 0.0 and i[3] == 0.0 and i[4] != 0.0:
+            avg = i[4]
+            ans = int(avg * 100)/100
+            puppyFr = Brocker.query.filter_by(name=i[1]).update({'Average': ans})
+            db.session.commit()
+
+        if i[2] != 0.0 and i[3] == 0.0 and i[4] == 0.0:
+            avg = i[2]
+            ans = int(avg * 100)/100
+            puppyFr = Brocker.query.filter_by(name=i[1]).update({'Average': ans})
+            db.session.commit()
+
+        if i[2] == 0.0 and i[3] != 0.0 and i[4] == 0.0:
+            avg = i[3]
+            ans = int(avg * 100)/100
+            puppyFr = Brocker.query.filter_by(name=i[1]).update({'Average': ans})
+            db.session.commit()
+
+        if i[2] == 0.0 and i[3] == 0.0 and i[4] == 0.0:
+            avg = i[3]
+
+            puppyFr = Brocker.query.filter_by(name=i[1]).update({'Average': 0.0})
+            db.session.commit()
+db.close()
