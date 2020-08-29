@@ -23,6 +23,9 @@ api = Api(app)
 jwt = JWT(app, authenticate, identity)
 
 
+
+
+
 class Brocker(db.Model):
     __tablename__ = 'Broker'
     # делаем таблицу
@@ -34,23 +37,25 @@ class Brocker(db.Model):
     Average = db.Column(db.REAL)
     Reviews = db.Column(db.TEXT)
 
-    def __init__(self, name, SiteBankiRU, SiteSmartLabRU, SiteOtzovikRU, Average, Reviews):
-        self.name = name
-        self.SiteBankiRU = SiteBankiRU
-        self.SiteSmartLabRU = SiteSmartLabRU
-        self.SiteOtzovikRU = SiteOtzovikRU
-        self.Average = Average
-        if Reviews is None or Reviews == '':
-            Reviews = '[]'
-        self.Reviews = json.loads(Reviews)
-        print(self.Reviews)
-        print("LEL")
+
+    # def __init__(self, name, SiteBankiRU, SiteSmartLabRU, SiteOtzovikRU, Average, Reviews):
+    #     print("KEK")
+    #     self.name = name
+    #     self.SiteBankiRU = SiteBankiRU
+    #     self.SiteSmartLabRU = SiteSmartLabRU
+    #     self.SiteOtzovikRU = SiteOtzovikRU
+    #     self.Average = Average
+    #     if Reviews is None or Reviews == '':
+    #         Reviews = '[]'
+    #     self.Reviews = json.loads(Reviews)
+    #     print(self.Reviews)
+    #     print("LEL")
 
     def json(self):
         if self.Reviews is None or self.Reviews == '':
             self.Reviews = '[]'
         self.Reviews = json.loads(self.Reviews)
-        print(self.Reviews)
+        # print(self.Reviews)
         return {'name': self.name, 'SiteBankiRU': self.SiteBankiRU, 'SiteSmartLabRU': self.SiteSmartLabRU,
                 'SiteOtzovikRU': self.SiteOtzovikRU, 'Average': self.Average, 'reviews': self.Reviews}
 
