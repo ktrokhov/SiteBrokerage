@@ -1,4 +1,4 @@
-import os
+import os, json
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -42,9 +42,15 @@ class Brocker(db.Model):
         self.Average = Average
         if Reviews is None or Reviews == '':
             Reviews = '[]'
-        self.Reviews = Reviews
+        self.Reviews = json.loads(Reviews)
+        print(self.Reviews)
+        print("LEL")
 
     def json(self):
+        if self.Reviews is None or self.Reviews == '':
+            self.Reviews = '[]'
+        self.Reviews = json.loads(self.Reviews)
+        print(self.Reviews)
         return {'name': self.name, 'SiteBankiRU': self.SiteBankiRU, 'SiteSmartLabRU': self.SiteSmartLabRU,
                 'SiteOtzovikRU': self.SiteOtzovikRU, 'Average': self.Average, 'reviews': self.Reviews}
 

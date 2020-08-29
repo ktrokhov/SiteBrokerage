@@ -65,7 +65,7 @@ for site in allSite:
     # print("kek")
     # print(json.dumps(a))
     alljson.append(json.dumps(a['rewies']))
-    time.sleep(10)
+    time.sleep(1)
     browser.close()
 
 
