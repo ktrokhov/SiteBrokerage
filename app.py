@@ -23,9 +23,6 @@ api = Api(app)
 jwt = JWT(app, authenticate, identity)
 
 
-
-
-
 class Brocker(db.Model):
     __tablename__ = 'Broker'
     # делаем таблицу
@@ -36,7 +33,6 @@ class Brocker(db.Model):
     SiteOtzovikRU = db.Column(db.REAL)
     Average = db.Column(db.REAL)
     Reviews = db.Column(db.TEXT)
-
 
     # def __init__(self, name, SiteBankiRU, SiteSmartLabRU, SiteOtzovikRU, Average, Reviews):
     #     print("KEK")
