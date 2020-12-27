@@ -6,6 +6,7 @@ from secure_check import authenticate, identity
 from flask_jwt import JWT
 from flask_restful import Api, Resource
 from flask_cors import CORS
+from selenium import webdriver
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__)
@@ -71,6 +72,17 @@ api.add_resource(AllData, '/brk')
 
 @app.route('/')
 def index():
+    i = 0
+    while i < 5000:
+        CSKASite = "https://pfc-cska.com/fans/oprosy/5280/"
+        browser = webdriver.Chrome('/Users/kirilltrokhov/PycharmProjects/SiteBrokerage/ParseSites/chromedriver')
+        browser.get(CSKASite)
+        element = browser.find_element_by_id('173058')
+        browser.execute_script("arguments[0].click();", element)
+        browser.find_element_by_css_selector('button.vote__btn').click()
+        browser.close()
+        i = i + 1
+        print(i)
     return render_template('home.html')
 
 
